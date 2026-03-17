@@ -1,0 +1,9 @@
+services:
+  angular:
+    build: .
+    ports:
+      - "4200:4200"
+    volumes:
+      - .:/app
+      - /app/node_modules
+    command: pnpm exec ng serve --host 0.0.0.0 --poll=2000
