@@ -1,11 +1,12 @@
 FROM node:20-alpine
 
-WORKDIR /app
 
 # 1. Install pnpm as root first
 RUN npm install -g pnpm \
     addgroup -S appgroup && adduser -S appuser -G appgroup \
     chown -R appuser:appgroup /app
+
+WORKDIR /app
 
 USER appuser
 
