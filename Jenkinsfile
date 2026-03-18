@@ -1,9 +1,9 @@
 pipeline {
     agent any
 
-    properties([
-        githubProjectProperty(projectUrlStr: 'https://github.com/denmgarcia/angular-app/')
-    ])
+    // properties([
+    //     githubProjectProperty(projectUrlStr: 'https://github.com/denmgarcia/angular-app/')
+    // ])
 
     environment {
         IMAGE_NAME = "cyborden/angular-app"
