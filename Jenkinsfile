@@ -1,6 +1,10 @@
 pipeline {
     agent any
 
+    properties([
+        githubProjectProperty(projectUrlStr: 'https://github.com/denmgarcia/angular-app/')
+    ])
+
     environment {
         IMAGE_NAME = "cyborden/angular-app"
         IMAGE_TAG = "${env.GIT_COMMIT.take(7)}"
