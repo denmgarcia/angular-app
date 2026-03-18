@@ -1,4 +1,4 @@
-FROM node:20-alpine
+FROM node:20-alpine AS build
 
 RUN npm install -g pnpm && \
     addgroup -S appgroup && \
