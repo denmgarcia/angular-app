@@ -1,8 +1,5 @@
 FROM node:20-alpine AS build
 
-RUN apk add --no-cache chromium
-
-ENV CHROME_BIN=/usr/bin/chromium-browser
 
 RUN npm install -g pnpm && \
     addgroup -S appgroup && \
