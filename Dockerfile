@@ -23,4 +23,4 @@ COPY --from=build /app/dist/angular-app/browser ./public
 
 EXPOSE 4201
 
-CMD ["http-server", "./public", "-p", "4201", "--proxy", "http://nginx:80?", "--spa"]
+CMD ["http-server", "./public", "-p", "4201", "--spa"]
