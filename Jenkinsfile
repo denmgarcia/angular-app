@@ -62,7 +62,9 @@ pipeline {
                 }
             }
 
-            stage('Update Kubernetes Manifests') {
+        }
+
+        stage('Update Kubernetes Manifests') {
               steps {
                   withCredentials([usernamePassword(credentialsId: 'github-creds',
                                   passwordVariable: 'GIT_PASSWORD',
@@ -89,8 +91,6 @@ pipeline {
 
 
 
-
-        }
     }
 
     post {
