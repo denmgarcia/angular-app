@@ -1,26 +1,29 @@
 FROM node:20-alpine AS build
 
-
-RUN npm install -g pnpm && \
-    addgroup -S appgroup && \
-    adduser -S appuser -G appgroup
-
+RUN npm install -g pnpm
 
 WORKDIR /app
 
-RUN chown -R appuser:appgroup /app
-
-USER appuser
-
-COPY --chown=appuser:appgroup package.json pnpm-lock.yaml* ./
-
+COPY package.json pnpm-lock.yaml* ./
 
 RUN pnpm install
 
+COPY . .
 
-COPY --chown=appuser:appgroup . .
+RUN pnpm run build --configuration=production
 
-EXPOSE 4200
+FROM node:20-alpine AS production
 
-# Start command
-CMD ["pnpm", "exec", "ng", "serve", "--host", "0.0.0.0", "--poll=2000"]
+RUN npm install -g pnpm
+
+WORKDIR /app
+
+COPY --from=build /app/dist/angular-app/browser ./dist
+COPY --from=build /app/package.json ./
+
+RUN pnpm install --prod
+
+EXPOSE 4201
+
+
+CMD ["pnpm", "exec", "ng", "serve", "--host", "0.0.0.0", "--configuration=production"]
