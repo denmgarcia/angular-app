@@ -82,7 +82,7 @@ pipeline {
                               git commit -m "Update image tag to ${IMAGE_TAG}"
 
                               # We use the variables GIT_USERNAME and GIT_PASSWORD here
-                              git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/denmgarcia/cicd-sample.git HEAD:$BRANCH_NAME
+                              git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/denmgarcia/angular-app.git HEAD:$BRANCH_NAME
                           '''
                       }
                   }
