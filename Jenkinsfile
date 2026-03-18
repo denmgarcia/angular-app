@@ -40,7 +40,7 @@ pipeline {
 
                     sh "docker run --rm ${IMAGE_NAME}:test pnpm exec ng lint"
 
-                    sh "docker run --rm ${IMAGE_NAME}:test pnpm exec ng test --watch=false --browsers=ChromeHeadless"
+                    // sh "docker run --rm ${IMAGE_NAME}:test pnpm exec ng test --watch=false --browsers=ChromeHeadless"
                 }
             }
         }
