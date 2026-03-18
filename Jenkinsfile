@@ -48,16 +48,6 @@ pipeline {
         stage('Build & Push to Registry') {
 
             steps {
-                // script {
-                //     echo 'Tests passed. Building final dev image...'
-                //     sh "docker build -t ${REGISTRY_USER}/${IMAGE_NAME}:dev ."
-
-                //     withCredentials([usernamePassword(credentialsId: 'docker-hub-creds', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
-                //         sh "echo $PASS | docker login -u $USER --password-stdin"
-                //         sh "docker push ${REGISTRY_USER}/${IMAGE_NAME}:dev"
-                //     }
-                // }
-
                 script {
                     docker.withRegistry('https://index.docker.io/v1/', 'docker-hub-credentials') {
                         def myImage = docker.image("${IMAGE_NAME}:${IMAGE_TAG}")
@@ -71,6 +61,35 @@ pipeline {
                     }
                 }
             }
+
+            stage('Update Kubernetes Manifests') {
+              steps {
+                  withCredentials([usernamePassword(credentialsId: 'github-creds',
+                                  passwordVariable: 'GIT_PASSWORD',
+                                  usernameVariable: 'GIT_USERNAME')]) {
+                      script {
+                          sh '''
+                              TARGET="manifest/deployment.yml"
+
+                              sed -i "s|image: cyborden/angular-app.*|image: cyborden/angular-app:${IMAGE_TAG}|g" "$TARGET"
+
+                              git config user.email "dengarcia.x@gmail.com"
+                              git config user.name "Jenkins CI"
+
+                              git add "$TARGET"
+                              git commit -m "Update image tag to ${IMAGE_TAG}"
+
+                              # We use the variables GIT_USERNAME and GIT_PASSWORD here
+                              git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/denmgarcia/cicd-sample.git HEAD:$BRANCH_NAME
+                          '''
+                      }
+                  }
+              }
+            }
+
+
+
+
         }
     }
 
