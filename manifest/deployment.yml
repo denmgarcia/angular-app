@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: angular-app
-        image: cyborden/angular-app:8d76617
+        image: cyborden/angular-app:eff81a8
         ports:
         - containerPort: 4201
         env:
